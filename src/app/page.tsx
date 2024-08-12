@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div>
-      <p className="italic text-3xl mb-4">"{randomQuote.quote}"</p>
+      <p className="italic text-3xl mb-4">&quot;{randomQuote.quote}&quot;</p>
       <p className="italic text-lg">- {randomQuote.author}</p>
       </div>
     </main>
