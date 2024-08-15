@@ -1,21 +1,13 @@
-import quotesData from '@/quotes.json';
+import { client } from '@/sanity/lib/client';
+import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
-function random<T>(list: T[]): T {
-  const randomIndex = Math.floor(Math.random() * list.length);
-  return list[randomIndex];
-}
+export default async function Home() {
+  const quoteIds = await client.fetch('*[_type == "quotes"]{_id}');
 
-export default function Home() {
-  const { quotes } = quotesData;
-  const randomQuote = random(quotes);
-  return (
-    <main className='flex min-h-screen flex-col items-center justify-center p-24'>
-      <div>
-        <p className='mb-4 text-3xl italic'>&quot;{randomQuote.quote}&quot;</p>
-        <p className='text-lg italic'>- {randomQuote.author}</p>
-      </div>
-    </main>
-  );
+  const randomIndex = Math.floor(Math.random() * quoteIds.length);
+  const randomQuoteId = quoteIds[randomIndex]._id;
+
+  return redirect(`/${randomQuoteId}`);
 }
