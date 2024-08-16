@@ -1,13 +1,12 @@
-import { client } from '@/sanity/lib/client';
 import { redirect } from 'next/navigation';
+import { getQuoteIds } from '@/queries';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const quoteIds = await client.fetch('*[_type == "quotes"]{_id}');
-
+  const quoteIds = await getQuoteIds();
   const randomIndex = Math.floor(Math.random() * quoteIds.length);
-  const randomQuoteId = quoteIds[randomIndex]._id;
+  const randomQuoteId = quoteIds[randomIndex].friendlyId.current;
 
   return redirect(`/${randomQuoteId}`);
 }

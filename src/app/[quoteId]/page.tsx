@@ -1,20 +1,15 @@
-import { client } from '@/sanity/lib/client';
+import { getQuote, getQuoteIds } from '@/queries';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
-  const quoteIds = await client.fetch('*[_type == "quotes"]{_id}');
+  const quoteIds = await getQuoteIds();
 
-  return quoteIds.map((quote: { _id: string }) => ({
-    quoteId: quote._id,
+  return quoteIds.map((quote: { friendlyId: { current: string } }) => ({
+    quoteFriendlyId: quote.friendlyId.current,
   }));
 }
 
-export const revalidate = 3600 * 24; // revalidate at most every day
-
-async function getQuote(id: string) {
-  const quote = await client.fetch(`*[_type == "quotes" && _id == "${id}"]`);
-  return quote[0];
-}
+export const revalidate = 86400; // revalidate at most every day
 
 export default async function Quote({
   params,
@@ -22,13 +17,11 @@ export default async function Quote({
   params: { quoteId: string };
 }) {
   const quoteResponse = await getQuote(params.quoteId);
-
   if (!quoteResponse) {
     notFound();
   }
 
   const { quote, author } = quoteResponse;
-
   return (
     <main className='flex min-h-screen flex-col items-center justify-center p-24'>
       <div>
