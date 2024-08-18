@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity';
-import {client} from '@/sanity/lib/client';
+import { client } from '@/sanity/lib/client';
 
 export const quotes = defineType({
   name: 'quotes',
@@ -33,7 +33,7 @@ export const quotes = defineType({
           return newId.toString();
         },
         slugify: (input) => input,
-      }
+      },
     }),
-      ],
+  ],
 });
