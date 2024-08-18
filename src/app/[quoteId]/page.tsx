@@ -23,7 +23,7 @@ export default async function Quote({
 
   const { quote, author } = quoteResponse;
   return (
-    <main className='flex min-h-screen flex-col items-center justify-center p-24'>
+    <main className='flex min-h-screen max-w-4xl mx-auto flex-col items-center justify-center px-8'>
       <div>
         <p className='mb-4 text-3xl italic'>&quot;{quote}&quot;</p>
         <p className='text-lg italic'>- {author}</p>
